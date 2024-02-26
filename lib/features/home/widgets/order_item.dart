@@ -1,0 +1,108 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:safari_restaurant/core/components/components.dart';
+import 'package:safari_restaurant/core/utils/font_manager.dart';
+import 'package:safari_restaurant/core/utils/image_resources.dart';
+import 'package:safari_restaurant/core/widgets/custom_button.dart';
+import 'package:safari_restaurant/cubits/app_cubit/app_cubit.dart';
+import 'package:safari_restaurant/features/home/widgets/payment_widget.dart';
+
+import '../../../core/utils/color_resources.dart';
+import '../../order_details/order_details_page.dart';
+
+class OrderItem extends StatelessWidget {
+  const OrderItem({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var cubit = AppCubit.get(context);
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadiusDirectional.circular(23.3),
+        color: ColorResources.lightGrey.withOpacity(.25)
+      ),
+      padding:const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(ImageResources.phone,width: 23.6,height: 23.6,),
+              const Gap(10),
+              Expanded(
+                child: Text(
+                  '+965 3262 5151 185',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: FontManager.getRegularStyle(fontSize: 15.6),
+                ),
+              ),
+              Text(
+                '#4355544',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: FontManager.getSemiBold(fontSize: 17.6),
+              )
+            ],
+          ),
+          const Gap(10),
+          defaultText('x1 Double Mushroom Burger'),
+          defaultText('x3 French Fries'),
+          defaultText('x1 Chieken Ranch Pizza'),
+          if(cubit.currentIndex ==1)
+          PaymentWidget(),
+          const Gap(10),
+          Row(
+            children: [
+              InkWell(
+                onTap: (){
+                  navigateTo(context, OrderDetailsPage());
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.arrow_back),
+                    const Gap(5),
+                    Text(
+                      'view_order_details'.tr(),
+                      style: FontManager.getMediumStyle(fontSize: 12.3),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(30),
+              Expanded(
+                child: CustomButton(
+                    text: cubit.currentIndex ==0
+                        ?'accept_order'.tr()
+                        : 'on_delivery'.tr(),
+                    onTouch: (){},
+                  width: null,
+                  color:cubit.currentIndex ==0
+                      ?null
+                      :ColorResources.black ,
+                  height: 43,
+                  textStyle: FontManager.getSemiBold(
+                      fontSize: 12.3,color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget defaultText(String text){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Text(
+        text,
+        style: FontManager.getMediumStyle(fontSize: 9.6),
+      ),
+    );
+  }
+}
