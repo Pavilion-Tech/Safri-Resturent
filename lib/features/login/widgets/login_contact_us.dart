@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -5,39 +6,47 @@ import 'package:safari_restaurant/core/components/components.dart';
 import 'package:safari_restaurant/core/utils/color_resources.dart';
 import 'package:safari_restaurant/core/utils/font_manager.dart';
 import 'package:safari_restaurant/core/utils/image_resources.dart';
+import 'package:safari_restaurant/cubits/auth_cubit/auth_cubit.dart';
 
 class LoginContactUs extends StatelessWidget {
-  const LoginContactUs({Key? key}) : super(key: key);
+  LoginContactUs(this.state);
+
+  AuthState state;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 141,width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusDirectional.circular(25),
-        color: ColorResources.lightGrey.withOpacity(.3)
-      ),
-      alignment: AlignmentDirectional.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          LoginContactUsItem(
-            image: ImageResources.whatsappIcon,
-            title: 'whatsapp_us'.tr(),
-            onTouch: (){
-              whatAppContact();
-            },
-          ),
-          const Gap(40),
-          LoginContactUsItem(
-            image: ImageResources.loginPhoneIcon,
-            title: 'call_us'.tr(),
-            onTouch: (){
-              openUrl('tel://01223364710', context);
-            },
-          ),
-        ],
+    var cubit = AuthCubit.get(context);
+    return ConditionalBuilder(
+      condition: state is! SettingsErrorState && cubit.settingsModel!=null,
+      fallback: (c)=>SizedBox(),
+      builder: (c)=> Container(
+        height: 141,width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusDirectional.circular(25),
+          color: ColorResources.lightGrey.withOpacity(.3)
+        ),
+        alignment: AlignmentDirectional.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LoginContactUsItem(
+              image: ImageResources.whatsappIcon,
+              title: 'whatsapp_us'.tr(),
+              onTouch: (){
+                whatAppContact(phone: cubit.settingsModel?.data?.projectWhatsAppNumber??'');
+              },
+            ),
+            const Gap(40),
+            LoginContactUsItem(
+              image: ImageResources.loginPhoneIcon,
+              title: 'call_us'.tr(),
+              onTouch: (){
+                openUrl('tel://${cubit.settingsModel?.data?.projectPhoneNumber??''}', context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

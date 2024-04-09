@@ -9,11 +9,12 @@ String? fcmToken;
 String? token;
 
 String? userId;
+
 String version = '';
 
 int? code;
 
-bool? isConnect;
+bool isConnect = true;
 
 const String googleAPIKey = 'AIzaSyCv_XLgyHqS2JvGPGWVyttaSU_SlbNDoA0';
 

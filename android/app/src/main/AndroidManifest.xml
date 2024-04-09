@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <!-- If your app opens https URLs -->
         <intent>
@@ -22,7 +23,7 @@
         </intent>
     </queries>
     <application
-        android:label="safari_restaurant"
+        android:label="Safari Restaurant"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

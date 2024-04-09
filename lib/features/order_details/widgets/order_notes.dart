@@ -6,9 +6,9 @@ import 'package:safari_restaurant/core/widgets/custom_feild.dart';
 import '../../../core/utils/font_manager.dart';
 
 class OrderNotes extends StatelessWidget {
-  OrderNotes({Key? key}) : super(key: key);
+  OrderNotes({required this.noteController});
 
-  TextEditingController noteController = TextEditingController(text: '''Hi, i want a an extra ketchup bags and the burger i want it wrapped very well ''');
+  TextEditingController noteController;
 
   @override
   Widget build(BuildContext context) {

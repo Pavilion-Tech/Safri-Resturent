@@ -9,10 +9,13 @@ import 'package:safari_restaurant/cubits/app_cubit/app_cubit.dart';
 import 'package:safari_restaurant/features/home/widgets/payment_widget.dart';
 
 import '../../../core/utils/color_resources.dart';
+import '../../../models/orders_model.dart';
 import '../../order_details/order_details_page.dart';
 
 class OrderHistoryItem extends StatelessWidget {
-  const OrderHistoryItem({Key? key}) : super(key: key);
+  OrderHistoryItem({required this.order});
+
+  OrderData order;
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +33,18 @@ class OrderHistoryItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(ImageResources.phone,width: 23.6,height: 23.6,),
-              const Gap(10),
+              // Image.asset(ImageResources.phone,width: 23.6,height: 23.6,),
+              // const Gap(10),
               Expanded(
                 child: Text(
-                  '+965 3262 5151 185',
+                  order.userName??'',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: FontManager.getRegularStyle(fontSize: 15.6),
                 ),
               ),
               Text(
-                '#4355544',
+                '#${order.itemNumber??''}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: FontManager.getSemiBold(fontSize: 17.6),
@@ -52,7 +55,7 @@ class OrderHistoryItem extends StatelessWidget {
           Center(
             child: InkWell(
               onTap: (){
-                navigateTo(context, OrderDetailsPage());
+                navigateTo(context, OrderDetailsPage(order: order,fromHome: false,));
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -72,13 +75,4 @@ class OrderHistoryItem extends StatelessWidget {
     );
   }
 
-  Widget defaultText(String text){
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Text(
-        text,
-        style: FontManager.getMediumStyle(fontSize: 9.6),
-      ),
-    );
-  }
 }

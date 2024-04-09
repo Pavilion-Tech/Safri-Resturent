@@ -18,10 +18,13 @@ class ImageResources{
   static const String calender = "assets/images/calender.png";
   static const String noConnection = "assets/images/no_connection.png";
   static const String update = "assets/images/update.png";
+  static const String holder = 'assets/images/holder.webp';
   static const String maintenance = "assets/images/maintenance.png";
+  static const String openAr = "assets/images/open_ar.png";
+  static const String closeAr = "assets/images/close_ar.png";
+  static const String pavilion = "assets/images/pavilion.png";
+  static const String filter = "assets/images/filter.png";
+  static const String busy = "assets/images/busy.png";
 
 
-  ///Will Remove
-  static const String product = "assets/images/product.png";
-  static const String store = "assets/images/store.png";
 }

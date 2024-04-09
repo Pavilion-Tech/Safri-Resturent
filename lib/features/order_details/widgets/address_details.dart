@@ -5,9 +5,12 @@ import 'package:safari_restaurant/core/utils/color_resources.dart';
 import 'package:safari_restaurant/core/utils/font_manager.dart';
 import 'package:safari_restaurant/core/utils/image_resources.dart';
 
-class AddressDetails extends StatelessWidget {
-  const AddressDetails({Key? key}) : super(key: key);
+import '../../../models/orders_model.dart';
 
+class AddressDetails extends StatelessWidget {
+  AddressDetails({required this.order});
+
+  OrderData order;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +34,7 @@ class AddressDetails extends StatelessWidget {
               const Gap(4),
               Expanded(
                 child: Text(
-                  '2 Street 105 Neighbourhood: Block 5 State: Farwaniya Zip/Postcode: 83004',
+                  order.userAddress?[0].title??'',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,fontSize: 15,height: 1.7
                   ),

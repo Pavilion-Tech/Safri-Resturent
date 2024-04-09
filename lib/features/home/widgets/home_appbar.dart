@@ -1,9 +1,15 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safari_restaurant/core/components/constants.dart';
 import 'package:safari_restaurant/core/utils/color_resources.dart';
 import 'package:safari_restaurant/core/utils/image_resources.dart';
+import 'package:safari_restaurant/core/widgets/shimmers/default_shimmer.dart';
+import 'package:safari_restaurant/cubits/settings_cubit/settings_cubit.dart';
 
 import '../../../core/components/components.dart';
 import '../../settings/settings_page.dart';
+import 'crowded_status_widget.dart';
 
 class HomeAppBar extends StatefulWidget {
   HomeAppBar({Key? key}) : super(key: key);
@@ -14,30 +20,37 @@ class HomeAppBar extends StatefulWidget {
 
 class _HomeAppBarState extends State<HomeAppBar> {
 
-  bool isOpen = true;
 
-  void changeStatus(){
-    setState(() {
-      isOpen = !isOpen;
-    });
+
+  @override
+  void initState() {
+    setState(() {});
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AnimatedSwitcher(
-          duration:const Duration(milliseconds: 500),
-          transitionBuilder: (Widget child,Animation<double> animation){
-            return ScaleTransition(scale: animation,child: child,);
-          },
-          child: InkWell(
-            key: ValueKey(isOpen),
-            onTap: ()=>changeStatus(),
-            overlayColor: ColorResources.transparent,
-            child: Image.asset(
-              isOpen?ImageResources.open:ImageResources.close,
-              width: 103,height: 37.6,
+        ConditionalBuilder(
+          condition: context.read<SettingsCubit>().restaurantModel?.data?.crowdedStatus !=null,
+          fallback: (c)=>CustomShimmer(width: 103,height: 37.6,),
+          builder: (c)=> AnimatedSwitcher(
+            duration:const Duration(milliseconds: 500),
+            transitionBuilder: (Widget child,Animation<double> animation){
+              return ScaleTransition(scale: animation,child: child,);
+            },
+            child: InkWell(
+              key: ValueKey(context.read<SettingsCubit>().restaurantModel?.data?.crowdedStatus == 1),
+              onTap: (){
+                int crowdedStatus = context.read<SettingsCubit>().
+                restaurantModel!.data!.crowdedStatus!;
+                context.read<SettingsCubit>().changeCrowdedStatus(
+                    context,
+                    status: crowdedStatus == 1? 2:1);
+              },
+              overlayColor: ColorResources.transparent,
+              child: CrowdedStatusWidget(),
             ),
           ),
         ),

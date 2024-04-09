@@ -35,7 +35,7 @@ class _OrderTypesState extends State<OrderTypes> {
             ),
           ),
           AnimatedAlign(
-            alignment:AppCubit.get(context).currentIndex == 0
+            alignment:AppCubit.get(context).currentOrderType == 1
                 ? AlignmentDirectional.centerStart
                 : AlignmentDirectional.centerEnd,
             duration:const Duration(milliseconds: 100),
@@ -53,28 +53,34 @@ class _OrderTypesState extends State<OrderTypes> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: ()=>AppCubit.get(context).changeIndex(0),
-                    child: Text(
-                      'new_orders'.tr(),
-                      style: FontManager.getSemiBold(
-                        fontSize: 16,
-                        color: AppCubit.get(context).currentIndex == 0
-                            ?Colors.white:null
+                    onTap: ()=>AppCubit.get(context).changeOrderType(1),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        'new_orders'.tr() +(AppCubit.get(context).currentOrderType == 1? ' (${AppCubit.get(context).ordersModel?.data?.count??' '})':''),
+                        style: FontManager.getSemiBold(
+                          fontSize: 16,
+                          color: AppCubit.get(context).currentOrderType == 1
+                              ?Colors.white:null
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: ()=>AppCubit.get(context).changeIndex(1),
-                    child: Text(
-                      'accepted_orders'.tr(),
-                      style: FontManager.getSemiBold(
-                          fontSize: 16,
-                          color: AppCubit.get(context).currentIndex == 1
-                              ?Colors.white:null
+                    onTap: ()=>AppCubit.get(context).changeOrderType(2),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        'accepted_orders'.tr() +(AppCubit.get(context).currentOrderType == 2? ' (${AppCubit.get(context).ordersModel?.data?.count??' '})':''),
+                        style: FontManager.getSemiBold(
+                            fontSize: 16,
+                            color: AppCubit.get(context).currentOrderType == 2
+                                ?Colors.white:null
+                        ),
+                        textAlign: TextAlign.end,
                       ),
-                      textAlign: TextAlign.end,
                     ),
                   ),
                 ),

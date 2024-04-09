@@ -22,7 +22,11 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3),(){
-      navigateAndFinish(context, LoginPage());
+      if(token!=null){
+        navigateAndFinish(context, HomePage());
+      }else{
+        navigateAndFinish(context, LoginPage());
+      }
     });
     super.initState();
   }

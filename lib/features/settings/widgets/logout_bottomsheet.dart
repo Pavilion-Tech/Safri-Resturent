@@ -2,11 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:safari_restaurant/core/components/components.dart';
+import 'package:safari_restaurant/core/network/local/cache_helper.dart';
 import 'package:safari_restaurant/core/utils/color_resources.dart';
 import 'package:safari_restaurant/core/widgets/custom_button.dart';
 import 'package:safari_restaurant/features/settings/widgets/settings_item.dart';
 import 'package:safari_restaurant/features/splash/splash_page.dart';
 
+import '../../../core/components/constants.dart';
 import '../../../core/utils/font_manager.dart';
 
 class LogoutBottomSheet extends StatelessWidget {
@@ -34,6 +36,8 @@ class LogoutBottomSheet extends StatelessWidget {
               CustomButton(
                   text: 'logout_now'.tr(),
                   onTouch: (){
+                    token = null;
+                    CacheHelper.removeData('token');
                     navigateAndFinish(context, SplashPage());
                   },
               ),

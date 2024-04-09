@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:safari_restaurant/core/utils/font_manager.dart';
 
 class PaymentWidget extends StatelessWidget {
-  const PaymentWidget({Key? key}) : super(key: key);
+  PaymentWidget(this.method);
+
+  String method;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class PaymentWidget extends StatelessWidget {
         padding:const EdgeInsets.symmetric(horizontal: 30),
         alignment: AlignmentDirectional.centerStart,
         child: Text(
-          'Pay On Delivery',
+          method.tr(),
           style: FontManager.getRegularStyle(fontSize: 16),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:safari_restaurant/core/components/constants.dart';
 import 'package:safari_restaurant/core/utils/font_manager.dart';
 import 'package:safari_restaurant/core/utils/image_resources.dart';
 
@@ -19,7 +20,10 @@ class DefaultAppBar extends StatelessWidget {
             children: [
               InkWell(
                   onTap: ()=>Navigator.pop(context),
-                  child: Image.asset(ImageResources.arrowBack,width: 36.7,height: 36.7,)),
+                  child: Transform.rotate(
+                    angle: myLocale == 'en'?0:3.14,
+                      child: Image.asset(ImageResources.arrowBack,width: 36.7,height: 36.7,))
+              ),
               const Gap(12),
               Text(
                 title,

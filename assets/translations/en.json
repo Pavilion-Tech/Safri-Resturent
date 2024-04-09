@@ -58,5 +58,20 @@
   "gift": "Gift",
   "delivery_charge": "Delivery Charge",
   "discount": "Discount",
-  "total_payment": "Total Payment"
+  "total_payment": "Total Payment",
+  "wrong": "Something Wrong From Server",
+  "no_orders_yet": "No Orders Yet",
+  "subtotal": "SubTotal",
+  "please_choose_from_date_first": "Please Choose From Date First",
+  "clear_date": "Clear Date",
+  "cash": "Pay On Delivery",
+  "online": "Online Pay",
+  "show_receipt": "Show Receipt",
+  "version": "Version",
+  "powered_by": "Powered By",
+  "not_crowded": "Not Busy",
+  "crowded": "Busy",
+  "crowded_note": "You cannot receive orders if the restaurant is set to “Busy” Change the restaurant’s status to “Not Busy” to receive orders",
+  "balance_in_wallet": "Balance In Wallet",
+  "gifts_of_order": "Gifts Of Order"
 }

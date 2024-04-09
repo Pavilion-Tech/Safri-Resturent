@@ -15,23 +15,28 @@ class PrintButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 47.6,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusDirectional.circular(9.3),
-        border: Border.all(color: ColorResources.black)
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(ImageResources.print,width: 27.2,height: 27.2,),
-          const Gap(6),
-          Text(
-            text,
-            style: FontManager.getRegularStyle(fontSize: 16),
-          )
-        ],
+    return InkWell(
+      onTap: onTouch,
+      overlayColor: ColorResources.transparent,
+      child: Container(
+        height: 47.6,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusDirectional.circular(9.3),
+          border: Border.all(color: ColorResources.black),
+          color: Theme.of(context).scaffoldBackgroundColor
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(ImageResources.print,width: 27.2,height: 27.2,),
+            const Gap(6),
+            Text(
+              text,
+              style: FontManager.getRegularStyle(fontSize: 16),
+            )
+          ],
+        ),
       ),
     );
   }

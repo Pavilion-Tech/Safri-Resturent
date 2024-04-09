@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:safari_restaurant/core/components/components.dart';
 import 'package:safari_restaurant/core/utils/font_manager.dart';
@@ -9,14 +10,15 @@ import 'package:safari_restaurant/cubits/app_cubit/app_cubit.dart';
 import 'package:safari_restaurant/features/home/widgets/payment_widget.dart';
 
 import '../../../core/utils/color_resources.dart';
+import '../../../models/orders_model.dart';
 import '../../order_details/order_details_page.dart';
 
 class OrderItem extends StatelessWidget {
-  const OrderItem({Key? key}) : super(key: key);
+  OrderItem({required this.order});
 
+  OrderData order;
   @override
   Widget build(BuildContext context) {
-    var cubit = AppCubit.get(context);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -31,18 +33,18 @@ class OrderItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(ImageResources.phone,width: 23.6,height: 23.6,),
-              const Gap(10),
+              // Image.asset(ImageResources.phone,width: 23.6,height: 23.6,),
+              // const Gap(10),
               Expanded(
                 child: Text(
-                  '+965 3262 5151 185',
+                  order.userName??'',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: FontManager.getRegularStyle(fontSize: 15.6),
                 ),
               ),
               Text(
-                '#4355544',
+                '#${order.itemNumber??'0'}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: FontManager.getSemiBold(fontSize: 17.6),
@@ -50,17 +52,21 @@ class OrderItem extends StatelessWidget {
             ],
           ),
           const Gap(10),
-          defaultText('x1 Double Mushroom Burger'),
-          defaultText('x3 French Fries'),
-          defaultText('x1 Chieken Ranch Pizza'),
-          if(cubit.currentIndex ==1)
-          PaymentWidget(),
+          Column(
+            children: order.
+            products?.
+            map((e) =>
+                ProductText('x${e.orderedQuantity??'0'} ${e.title??''}')).
+            toList()??[],
+          ),
+          if(context.read<AppCubit>().currentOrderType == 2)
+          PaymentWidget(order.paymentMethod??''),
           const Gap(10),
           Row(
             children: [
               InkWell(
                 onTap: (){
-                  navigateTo(context, OrderDetailsPage());
+                  navigateTo(context, OrderDetailsPage(order: order,));
                 },
                 child: Row(
                   children: [
@@ -76,14 +82,21 @@ class OrderItem extends StatelessWidget {
               const Gap(30),
               Expanded(
                 child: CustomButton(
-                    text: cubit.currentIndex ==0
+                    text: context.read<AppCubit>().currentOrderType ==1
                         ?'accept_order'.tr()
                         : 'on_delivery'.tr(),
-                    onTouch: (){},
+                    onTouch: (){
+                      context.read<AppCubit>().changeOrderStatus(context,
+                          id: order.id??'',
+                        status: context.read<AppCubit>().currentOrderType ==1
+                            ?2
+                            :3
+                      );
+                    },
                   width: null,
-                  color:cubit.currentIndex ==0
+                  color:context.read<AppCubit>().currentOrderType ==1
                       ?null
-                      :ColorResources.black ,
+                      :ColorResources.black,
                   height: 43,
                   textStyle: FontManager.getSemiBold(
                       fontSize: 12.3,color: Colors.white),
@@ -96,13 +109,23 @@ class OrderItem extends StatelessWidget {
     );
   }
 
-  Widget defaultText(String text){
+}
+
+
+class ProductText extends StatelessWidget {
+  ProductText(this.text);
+  String text;
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Text(
         text,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: FontManager.getMediumStyle(fontSize: 9.6),
       ),
     );
   }
 }
+
